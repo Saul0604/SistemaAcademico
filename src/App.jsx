@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>🎓 Sistema Académico</h1>
+        <h1>Sistema Académico</h1>
         <p className="subtitle">Gestión de Alumnos, Materias y Calificaciones</p>
       </header>
       <main className="main-content">
@@ -20,7 +20,7 @@ function App() {
                 className={seccionActiva === 'alumnos' ? 'active' : ''}
                 onClick={() => setSeccionActiva('alumnos')}
               >
-                👤 Alumnos
+                Alumnos
               </button>
             </li>
             <li>
@@ -28,7 +28,7 @@ function App() {
                 className={seccionActiva === 'materias' ? 'active' : ''}
                 onClick={() => setSeccionActiva('materias')}
               >
-                📚 Materias
+                Materias
               </button>
             </li>
             <li>
@@ -36,7 +36,7 @@ function App() {
                 className={seccionActiva === 'calificaciones' ? 'active' : ''}
                 onClick={() => setSeccionActiva('calificaciones')}
               >
-                📊 Calificaciones
+                Calificaciones
               </button>
             </li>
             <li>
@@ -44,7 +44,7 @@ function App() {
                 className={seccionActiva === 'reportes' ? 'active' : ''}
                 onClick={() => setSeccionActiva('reportes')}
               >
-                📈 Reportes
+                Reportes
               </button>
             </li>
           </ul>

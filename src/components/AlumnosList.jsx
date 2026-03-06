@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './AlumnosList.css';
+import { obtenerAlumnos, crearAlumno, eliminarAlumno } from '../services/alumnoService';
 
 function AlumnosList() {
   const [alumnos, setAlumnos] = useState([]);
@@ -7,67 +8,88 @@ function AlumnosList() {
   const [error, setError] = useState(null);
   const [nuevoNombre, setNuevoNombre] = useState('');
   const [nuevaMatricula, setNuevaMatricula] = useState('');
+  const [guardando, setGuardando] = useState(false);
 
+  // Cargar alumnos al montar el componente
   useEffect(() => {
-    // Simular fetch a backend - reemplazar con URL real cuando esté disponible
-    const fetchAlumnos = async () => {
-      try {
-        // const response = await fetch('http://localhost:3000/alumnos');
-        // if (!response.ok) throw new Error('Error al obtener alumnos');
-        // const data = await response.json();
-        
-        // Datos mock para desarrollo
-        const data = [
-          { nombre: 'Juan Pérez', matricula: 'A001' },
-          { nombre: 'María García', matricula: 'A002' },
-          { nombre: 'Carlos López', matricula: 'A003' }
-        ];
-        
-        setAlumnos(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAlumnos();
+    cargarAlumnos();
   }, []);
 
-  const agregarAlumno = () => {
+  const cargarAlumnos = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await obtenerAlumnos();
+      setAlumnos(data);
+    } catch (err) {
+      setError('No pudimos cargar los alumnos. Verifica que el backend esté ejecutándose.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const agregarAlumno = async () => {
     if (!nuevoNombre.trim() || !nuevaMatricula.trim()) {
       alert('Nombre y matrícula son obligatorios.');
       return;
     }
-    const nuevoAlumno = { nombre: nuevoNombre, matricula: nuevaMatricula };
-    setAlumnos([...alumnos, nuevoAlumno]);
-    setNuevoNombre('');
-    setNuevaMatricula('');
+
+    try {
+      setGuardando(true);
+      const response = await crearAlumno(nuevoNombre, nuevaMatricula);
+      
+      // Agregar el nuevo alumno a la lista
+      setAlumnos([...alumnos, response.data]);
+      setNuevoNombre('');
+      setNuevaMatricula('');
+    } catch (err) {
+      alert('Error al agregar alumno: ' + err.message);
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  const eliminarAlumnoHandler = async (id) => {
+    if (!confirm('¿Seguro que quieres eliminar este alumno?')) {
+      return;
+    }
+
+    try {
+      await eliminarAlumno(id);
+      setAlumnos(alumnos.filter(alumno => alumno.id !== id));
+    } catch (err) {
+      alert('Error al eliminar alumno: ' + err.message);
+    }
   };
 
   if (loading) return <div className="alumnos-container"><p className="message loading-message">⏳ Cargando alumnos...</p></div>;
-  if (error) return <div className="alumnos-container"><p className="message error-message">❌ Error: {error}</p></div>;
+  if (error) return <div className="alumnos-container"><p className="message error-message">❌ {error}</p></div>;
 
   return (
     <div className="alumnos-container">
-      <h2>📚 Lista de Alumnos</h2>
+      <h2>Lista de Alumnos</h2>
       
       <div className="form-container">
-        <h3>➕ Agregar Nuevo Alumno</h3>
+        <h3>Agregar Nuevo Alumno</h3>
         <div className="input-group">
           <input
             type="text"
             placeholder="Nombre del alumno"
             value={nuevoNombre}
             onChange={(e) => setNuevoNombre(e.target.value)}
+            disabled={guardando}
           />
           <input
             type="text"
             placeholder="Matrícula"
             value={nuevaMatricula}
             onChange={(e) => setNuevaMatricula(e.target.value)}
+            disabled={guardando}
           />
-          <button className="btn-agregar" onClick={agregarAlumno}>Agregar</button>
+          <button className="btn-agregar" onClick={agregarAlumno} disabled={guardando}>
+            {guardando ? 'Guardando...' : 'Agregar'}
+          </button>
         </div>
       </div>
 
@@ -78,12 +100,19 @@ function AlumnosList() {
         </div>
       ) : (
         <ul className="alumnos-list">
-          {alumnos.map((alumno, index) => (
-            <li key={index} className="alumno-item">
+          {alumnos.map((alumno) => (
+            <li key={alumno.id} className="alumno-item">
               <div className="alumno-info">
-                <div className="alumno-nombre">👤 {alumno.nombre}</div>
+                <div className="alumno-nombre">{alumno.nombre}</div>
                 <div className="alumno-matricula"><strong>ID:</strong> {alumno.matricula}</div>
               </div>
+              <button 
+                className="btn-eliminar" 
+                onClick={() => eliminarAlumnoHandler(alumno.id)}
+                title="Eliminar alumno"
+              >
+                🗑️
+              </button>
             </li>
           ))}
         </ul>

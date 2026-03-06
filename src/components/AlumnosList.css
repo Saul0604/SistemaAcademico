@@ -151,6 +151,35 @@
 .empty-state-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
+}
+
+.empty-state-text {
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.btn-eliminar {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.btn-eliminar:hover {
+  background: #ffe6e6;
+  transform: scale(1.2);
+}
+
+.btn-eliminar:active {
+  transform: scale(0.95);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
   opacity: 0.5;
 }
 
