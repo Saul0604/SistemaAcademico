@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './AlumnosList.css';
-import { obtenerAlumnos, crearAlumno, eliminarAlumno } from '../services/alumnoService';
+import { obtenerAlumnos, crearAlumno, eliminarAlumno, actualizarAlumno } from '../services/alumnoService';
 
 function AlumnosList() {
   const [alumnos, setAlumnos] = useState([]);
@@ -9,6 +9,13 @@ function AlumnosList() {
   const [nuevoNombre, setNuevoNombre] = useState('');
   const [nuevaMatricula, setNuevaMatricula] = useState('');
   const [guardando, setGuardando] = useState(false);
+  
+  // Estados para edición
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [alumnoEditando, setAlumnoEditando] = useState(null);
+  const [nombreEditado, setNombreEditado] = useState('');
+  const [matriculaEditada, setMatriculaEditada] = useState('');
+  const [guardandoEdicion, setGuardandoEdicion] = useState(false);
 
   // Cargar alumnos al montar el componente
   useEffect(() => {
@@ -63,6 +70,48 @@ function AlumnosList() {
     }
   };
 
+  const abrirModalEdicion = (id) => {
+    const alumno = alumnos.find(a => a.id === id);
+    if (alumno) {
+      setAlumnoEditando(alumno);
+      setNombreEditado(alumno.nombre);
+      setMatriculaEditada(alumno.matricula);
+      setMostrarModal(true);
+    }
+  };
+
+  const cerrarModal = () => {
+    setMostrarModal(false);
+    setAlumnoEditando(null);
+    setNombreEditado('');
+    setMatriculaEditada('');
+  };
+
+  const guardarEdicion = async () => {
+    if (!nombreEditado.trim() || !matriculaEditada.trim()) {
+      alert('Nombre y matrícula son obligatorios.');
+      return;
+    }
+
+    try {
+      setGuardandoEdicion(true);
+      await actualizarAlumno(alumnoEditando.id, nombreEditado, matriculaEditada);
+      
+      // Actualizar la lista localmente
+      setAlumnos(alumnos.map(alumno =>
+        alumno.id === alumnoEditando.id
+          ? { ...alumno, nombre: nombreEditado, matricula: matriculaEditada }
+          : alumno
+      ));
+      
+      cerrarModal();
+    } catch (err) {
+      alert('Error al editar alumno: ' + err.message);
+    } finally {
+      setGuardandoEdicion(false);
+    }
+  };
+
   if (loading) return <div className="alumnos-container"><p className="message loading-message">⏳ Cargando alumnos...</p></div>;
   if (error) return <div className="alumnos-container"><p className="message error-message">❌ {error}</p></div>;
 
@@ -90,6 +139,7 @@ function AlumnosList() {
           <button className="btn-agregar" onClick={agregarAlumno} disabled={guardando}>
             {guardando ? 'Guardando...' : 'Agregar'}
           </button>
+          
         </div>
       </div>
 
@@ -104,18 +154,70 @@ function AlumnosList() {
             <li key={alumno.id} className="alumno-item">
               <div className="alumno-info">
                 <div className="alumno-nombre">{alumno.nombre}</div>
-                <div className="alumno-matricula"><strong>ID:</strong> {alumno.matricula}</div>
+                <div className="alumno-matricula"><strong>Matricula:</strong> {alumno.matricula}</div>
               </div>
-              <button 
-                className="btn-eliminar" 
-                onClick={() => eliminarAlumnoHandler(alumno.id)}
-                title="Eliminar alumno"
-              >
-                🗑️
-              </button>
+              <div className="alumno-acciones">
+                <button 
+                  className="btn-editar" 
+                  onClick={() => abrirModalEdicion(alumno.id)}
+                  title="Editar alumno"
+                >
+                  ✏️
+                </button>
+                <button 
+                  className="btn-eliminar" 
+                  onClick={() => eliminarAlumnoHandler(alumno.id)}
+                  title="Eliminar alumno"
+                >
+                  🗑️
+                </button>
+              </div>
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Modal de Edición */}
+      {mostrarModal && (
+        <div className="modal-overlay" onClick={cerrarModal}>
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Editar Alumno</h3>
+              <button className="btn-cerrar" onClick={cerrarModal}>✕</button>
+            </div>
+            
+            <div className="modal-body">
+              <div className="form-group">
+                <label>Nombre</label>
+                <input
+                  type="text"
+                  value={nombreEditado}
+                  onChange={(e) => setNombreEditado(e.target.value)}
+                  disabled={guardandoEdicion}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Matrícula</label>
+                <input
+                  type="text"
+                  value={matriculaEditada}
+                  onChange={(e) => setMatriculaEditada(e.target.value)}
+                  disabled={guardandoEdicion}
+                />
+              </div>
+            </div>
+            
+            <div className="modal-footer">
+              <button className="btn-cancelar" onClick={cerrarModal} disabled={guardandoEdicion}>
+                Cancelar
+              </button>
+              <button className="btn-guardar" onClick={guardarEdicion} disabled={guardandoEdicion}>
+                {guardandoEdicion ? 'Guardando...' : 'Guardar Cambios'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
