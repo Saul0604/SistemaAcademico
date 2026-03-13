@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './styles/App.css'
 import AlumnosList from './components/AlumnosList'
+import MateriasList from './components/MateriasList'
 
 function App() {
   const [seccionActiva, setSeccionActiva] = useState('alumnos')
@@ -52,7 +53,7 @@ function App() {
 
         <div className="content-area">
           {seccionActiva === 'alumnos' && <AlumnosList />}
-          {seccionActiva === 'materias' && <div className="alumnos-container"><p className="message">📚 Sección de Materias (En desarrollo)</p></div>}
+          {seccionActiva === 'materias' && <MateriasList />}
           {seccionActiva === 'calificaciones' && <div className="alumnos-container"><p className="message">📊 Sección de Calificaciones (En desarrollo)</p></div>}
           {seccionActiva === 'reportes' && <div className="alumnos-container"><p className="message">📈 Sección de Reportes (En desarrollo)</p></div>}
         </div>
