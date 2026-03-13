@@ -44,10 +44,10 @@ function AlumnosList() {
 
     try {
       setGuardando(true);
-      const response = await crearAlumno(nuevoNombre, nuevaMatricula);
+      const nuevoAlumno = await crearAlumno(nuevoNombre, nuevaMatricula);
       
       // Agregar el nuevo alumno a la lista
-      setAlumnos([...alumnos, response.data]);
+      setAlumnos([...alumnos, nuevoAlumno]);
       setNuevoNombre('');
       setNuevaMatricula('');
     } catch (err) {
