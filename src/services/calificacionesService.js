@@ -18,7 +18,7 @@ export const crearCalificacion = async (alumnoId, materiaId, nota) => {
 
 export const actualizarCalificacion = async (id, alumnoId, materiaId, nota) => {
     const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
+        method: 'PATCH', // <--- El método que coincide con tu backend
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ alumnoId, materiaId, calificacion: Number(nota) }),
     });
