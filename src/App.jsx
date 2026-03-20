@@ -67,6 +67,7 @@ function App() {
             </li>
           </ul>
         </aside>
+        {/* --------------------------------------------------- */}
 
         <div className="content-area">
           {seccionActiva === 'alumnos' && <AlumnosList />}

@@ -83,9 +83,18 @@
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  height: fit-content;
+  
+  /* --- AJUSTES RADICALES PARA LA SIDEBAR --- */
+  height: calc(100vh - 6rem); /* Fuerza una altura exacta */
   position: sticky;
   top: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Manda el menú arriba y el logo abajo */
+  
+  overflow: hidden; /* Cortafuegos: Si algo (como el logo) es muy grande, lo corta y no lo deja salir */
+  /* ----------------------------------------- */
 }
 
 .sidebar h3 {
@@ -141,10 +150,15 @@
 }
 
 .content-area > div {
+/* --- CLASES DEL LOGO QUE FORZAN EL TAMAÑO --- */
+.sidebar-logo-container {
+  margin-top: auto;
   display: flex;
-  flex-direction: column;
-  flex: 1;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
 }
 
 /* ===== FOOTER ===== */
@@ -174,4 +188,27 @@
     justify-content: flex-end;
     margin-bottom: 8px;
   }
+}
+
+/* ===== LOGO ===== */
+.sidebar-logo {
+  width: 150px !important; 
+  height: auto !important;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-logo:hover {
+  transform: scale(1.05);
+}
+
+/* ===== CONTENT ===== */
+.content-area {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: none;
 }
