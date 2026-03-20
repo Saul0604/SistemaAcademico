@@ -1,24 +1,40 @@
 import { useState } from 'react'
 import './styles/App.css'
+import LoginPage from './pages/LoginPage'
 import AlumnosList from './components/AlumnosList'
 import MateriasList from './components/MateriasList'
 import CalificacionesList from './components/CalificacionesList'
 
 function App() {
+  const [user, setUser] = useState(null)
   const [seccionActiva, setSeccionActiva] = useState('alumnos')
+
+  // Si no hay sesión, mostrar login
+  if (!user) {
+    return <LoginPage onLogin={(userData) => setUser(userData)} />
+  }
 
   return (
     <div className="app">
       <header className="header">
+        <div className="header-top">
+          <div className="header-user">
+            <span>👤 {user.name || user.email}</span>
+            <button className="logout-btn" onClick={() => setUser(null)}>
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
         <h1>Sistema Académico</h1>
         <p className="subtitle">Gestión de Alumnos, Materias y Calificaciones</p>
       </header>
+
       <main className="main-content">
         <aside className="sidebar">
           <h3>☰ Menú</h3>
           <ul className="sidebar-menu">
             <li>
-              <button 
+              <button
                 className={seccionActiva === 'alumnos' ? 'active' : ''}
                 onClick={() => setSeccionActiva('alumnos')}
               >
@@ -26,7 +42,7 @@ function App() {
               </button>
             </li>
             <li>
-              <button 
+              <button
                 className={seccionActiva === 'materias' ? 'active' : ''}
                 onClick={() => setSeccionActiva('materias')}
               >
@@ -34,7 +50,7 @@ function App() {
               </button>
             </li>
             <li>
-              <button 
+              <button
                 className={seccionActiva === 'calificaciones' ? 'active' : ''}
                 onClick={() => setSeccionActiva('calificaciones')}
               >
@@ -42,7 +58,7 @@ function App() {
               </button>
             </li>
             <li>
-              <button 
+              <button
                 className={seccionActiva === 'reportes' ? 'active' : ''}
                 onClick={() => setSeccionActiva('reportes')}
               >
@@ -56,9 +72,14 @@ function App() {
           {seccionActiva === 'alumnos' && <AlumnosList />}
           {seccionActiva === 'materias' && <MateriasList />}
           {seccionActiva === 'calificaciones' && <CalificacionesList />}
-          {seccionActiva === 'reportes' && <div className="alumnos-container"><p className="message">📈 Sección de Reportes (En desarrollo)</p></div>}
+          {seccionActiva === 'reportes' && (
+            <div className="alumnos-container">
+              <p className="message">📈 Sección de Reportes (En desarrollo)</p>
+            </div>
+          )}
         </div>
       </main>
+
       <footer className="app-footer">
         <p>© 2026 Sistema Académico Simple | Equipo de Desarrollo</p>
       </footer>

@@ -14,7 +14,9 @@
   overflow-x: hidden;
 }
 
+/* ===== HEADER ===== */
 .header {
+  position: relative;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   padding: 2rem 2rem;
@@ -34,6 +36,37 @@
   font-weight: 300;
 }
 
+/* Usuario + botón en esquina superior derecha */
+.header-top {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: white;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  padding: 5px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ===== MAIN ===== */
 .main-content {
   display: flex;
   gap: 2rem;
@@ -42,6 +75,7 @@
   flex: 1;
 }
 
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 280px;
   flex-shrink: 0;
@@ -96,6 +130,7 @@
   border-left-color: #764ba2;
 }
 
+/* ===== CONTENT ===== */
 .content-area {
   flex: 1;
   width: 100%;
@@ -112,17 +147,7 @@
   width: 100%;
 }
 
-@media (max-width: 768px) {
-  .main-content {
-    flex-direction: column;
-  }
-  
-  .sidebar {
-    width: 100%;
-    position: static;
-  }
-}
-
+/* ===== FOOTER ===== */
 .app-footer {
   background-color: rgba(0, 0, 0, 0.3);
   color: white;
@@ -130,4 +155,23 @@
   padding: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.9rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+  }
+
+  .header-top {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
 }

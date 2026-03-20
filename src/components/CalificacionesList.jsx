@@ -156,7 +156,7 @@ function CalificacionesList() {
             style={{ color: nuevoAlumnoId === '' ? '#9ca3af' : 'inherit' }}
           >
             <option value="" disabled hidden>Alumno</option>
-            {alumnos.map(a => <option key={a.id} value={a.id} style={{ color: 'var(--text-color, #ffffff)' }}>{a.nombre}</option>)}
+            {alumnos.map(a => <option key={a.id} value={a.id} style={{ color: 'var(--text-color, #030202)' }}>{a.nombre}</option>)}
           </select>
 
           <select 
@@ -166,7 +166,7 @@ function CalificacionesList() {
             style={{ color: nuevaMateriaId === '' ? '#9ca3af' : 'inherit' }}
           >
             <option value="" disabled hidden>Materia</option>
-            {materias.map(m => <option key={m.id} value={m.id} style={{ color: 'var(--text-color, #ffffff)' }}>{m.nombre}</option>)}
+            {materias.map(m => <option key={m.id} value={m.id} style={{ color: 'var(--text-color, #000000)' }}>{m.nombre}</option>)}
           </select>
 
           <input
