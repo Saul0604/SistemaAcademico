@@ -6,7 +6,7 @@
 
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f8f9fa, #F3F4F6);
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -17,53 +17,60 @@
 /* ===== HEADER ===== */
 .header {
   position: relative;
-  background-color: rgba(0, 0, 0, 0.2);
+  background: #1565C0;
   color: white;
-  padding: 2rem 2rem;
+  padding: 2.5rem 2rem;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(19, 101, 192, 0.2);
 }
 
 .header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
+  color: white;
+  font-size: 2.8rem;
+  margin-bottom: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .subtitle {
   font-size: 1.1rem;
-  opacity: 0.9;
-  font-weight: 300;
+  opacity: 0.95;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 /* Usuario + botón en esquina superior derecha */
 .header-top {
   position: absolute;
-  top: 14px;
+  top: 16px;
   right: 20px;
 }
 
 .header-user {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13px;
+  gap: 12px;
+  font-size: 14px;
   color: white;
+  font-weight: 600;
 }
 
 .logout-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.5);
   color: white;
-  padding: 5px 14px;
-  border-radius: 20px;
+  padding: 6px 18px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 12px;
-  transition: background 0.2s;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .logout-btn:hover {
   background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
 }
 
 /* ===== MAIN ===== */
@@ -71,7 +78,8 @@
   display: flex;
   gap: 2rem;
   width: 100%;
-  padding: 2rem 1rem;
+  padding: 2rem 1.5rem;
+  padding-left: calc(280px + 3rem + 1.5rem);
   flex: 1;
 }
 
@@ -79,21 +87,27 @@
 .sidebar {
   width: 280px;
   flex-shrink: 0;
-  background: white;
+  background: #FFFFFF;
   border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 1.8rem;
+  box-shadow: 0 4px 12px rgba(19, 101, 192, 0.12);
   height: fit-content;
-  position: sticky;
-  top: 2rem;
+  position: fixed;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 4px solid #D32F2F;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 .sidebar h3 {
-  color: #333;
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
-  border-bottom: 2px solid #667eea;
-  padding-bottom: 0.75rem;
+  color: #1F2937;
+  margin-bottom: 1.2rem;
+  font-size: 1.2rem;
+  border-bottom: 3px solid #1565C0;
+  padding-bottom: 0.8rem;
+  font-weight: 700;
 }
 
 .sidebar-menu {
@@ -101,33 +115,36 @@
 }
 
 .sidebar-menu li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .sidebar-menu button {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.2rem;
   border: none;
-  background: #f8f9fa;
-  color: #333;
-  border-radius: 6px;
+  background: #F3F4F6;
+  color: #1F2937;
+  border-radius: 8px;
   cursor: pointer;
   text-align: left;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
   border-left: 3px solid transparent;
 }
 
 .sidebar-menu button:hover {
-  background: #e8eaf6;
-  border-left-color: #667eea;
+  background: #E0E7FF;
+  border-left-color: #1565C0;
   transform: translateX(4px);
+  color: #1565C0;
 }
 
 .sidebar-menu button.active {
-  background: #667eea;
-  color: white;
-  border-left-color: #764ba2;
+  background: linear-gradient(135deg, rgba(211, 47, 47, 0.1), rgba(21, 101, 192, 0.1));
+  color: #D32F2F;
+  border-left-color: #D32F2F;
+  font-weight: 700;
 }
 
 /* ===== CONTENT ===== */
@@ -149,29 +166,40 @@
 
 /* ===== FOOTER ===== */
 .app-footer {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: white;
+  background: #c8bfbf;
+  color: #1F2937;
   text-align: center;
-  padding: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.9rem;
+  padding: 1.8rem;
+  border-top: 2px solid #E0E0E0;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
+    padding: 2rem 1rem;
+    padding-left: 1rem;
   }
 
   .sidebar {
-    width: 100%;
     position: static;
+    width: 100%;
+    transform: none;
+    max-height: fit-content;
+    left: auto;
+    top: auto;
   }
 
   .header-top {
     position: static;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
   }
 }
