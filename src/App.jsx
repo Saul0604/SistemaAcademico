@@ -3,6 +3,7 @@ import './styles/App.css'
 import LoginPage from './pages/LoginPage'
 import AlumnosList from './components/AlumnosList'
 import MateriasList from './components/MateriasList'
+import ReportesDashboard from './components/Reportesdashboard'
 import CalificacionesList from './components/CalificacionesList'
 
 function App() {
@@ -72,11 +73,7 @@ function App() {
           {seccionActiva === 'alumnos' && <AlumnosList />}
           {seccionActiva === 'materias' && <MateriasList />}
           {seccionActiva === 'calificaciones' && <CalificacionesList />}
-          {seccionActiva === 'reportes' && (
-            <div className="alumnos-container">
-              <p className="message">📈 Sección de Reportes (En desarrollo)</p>
-            </div>
-          )}
+          {seccionActiva === 'reportes' && <ReportesDashboard />}
         </div>
       </main>
 
